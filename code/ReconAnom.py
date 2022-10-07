@@ -5,7 +5,7 @@ import importlib
 
 #from config import get_cfg_defaults
 sys.path.append("<PATH TO CODE ROOT DIR>/config/")
-from defaults import get_cfg_defaults
+from config.defaults import get_cfg_defaults
 
 class MethodEvaluator():
     def __init__(self, **kwargs):
