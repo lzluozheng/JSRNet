@@ -42,7 +42,7 @@ MODEL:
   OUT_STRIDE: 16
   RECONSTRUCTION:
     LATENT_DIM: 4
-    SEGM_MODEL: D:\\code\\study\\autopilot\\JSRNet\\checkpoints\\checkpoint-segmentation.pth
+    SEGM_MODEL: D:\\code\\study\\autopilot\\JSRNet-modify\\checkpoints\\checkpoint-segmentation.pth
     SEGM_MODEL_NCLASS: 19
     SKIP_CONN: false
     SKIP_CONN_DIM: 32

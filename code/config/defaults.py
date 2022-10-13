@@ -10,7 +10,7 @@ _C.SYSTEM.RNG_SEED = 42
 
 _C.MODEL = CN()
 #_C.MODEL.NET = "DeepLabRecon"                    # available networks from net.models.py file
-_C.MODEL.NET = "DeepLabReconFuseSimpleTrain"                    # available networks from net.models.py file
+_C.MODEL.NET = "DeepLabReconFuseSimpleTrainModified"                    # available networks from net.models.py file
 _C.MODEL.BACKBONE = "resnet"                # choices: ['resnet', 'xception', 'drn', 'mobilenet']
 _C.MODEL.OUT_STRIDE = 16                    # deeplab output stride
 _C.MODEL.SYNC_BN = None                     # whether to use sync bn (for multi-gpu), None == Auto detect
@@ -19,7 +19,7 @@ _C.MODEL.FREEZE_BN = False
 _C.MODEL.RECONSTRUCTION = CN()
 _C.MODEL.RECONSTRUCTION.LATENT_DIM = 4      # number of channels of latent space
 #_C.MODEL.RECONSTRUCTION.SEGM_MODEL = "/mnt/datagrid/personal/vojirtom/sod/mcsegm/20210209_112729_903607/checkpoints/checkpoint-best.pth" #resnet 51.6
-# _C.MODEL.RECONSTRUCTION.SEGM_MODEL = "D:\\code\\study\\autopilot\\JSRNet\\checkpoints\\checkpoint-segmentation.pth"  #resnet 66.1
+# _C.MODEL.RECONSTRUCTION.SEGM_MODEL = "D:\\code\\study\\autopilot\\JSRNet-modify\\checkpoints\\checkpoint-segmentation.pth"  #resnet 66.1
 _C.MODEL.RECONSTRUCTION.SEGM_MODEL = "/tmp/pycharm_project_114/checkpoints/checkpoint-segmentation.pth" #mobilenet 61.2
 #_C.MODEL.RECONSTRUCTION.SEGM_MODEL = "/mnt/datagrid/personal/vojirtom/sod/mcsegm/20210306_214758_686017/checkpoints/checkpoint-best.pth" #xception 50.3
 _C.MODEL.RECONSTRUCTION.SEGM_MODEL_NCLASS = 19  # 19 for cityscapes
@@ -36,7 +36,7 @@ _C.LOSS.BATCH_AVG = True
 
 _C.EXPERIMENT= CN()
 _C.EXPERIMENT.NAME = None                   # None == Auto name from date and time 
-# _C.EXPERIMENT.OUT_DIR = "D:\\code\\study\\autopilot\\JSRNet\\temp"
+# _C.EXPERIMENT.OUT_DIR = "D:\\code\\study\\autopilot\\JSRNet-modify\\temp"
 _C.EXPERIMENT.OUT_DIR = "/tmp/pycharm_project_114/temp"
 _C.EXPERIMENT.EPOCHS = 200                  # number of training epochs
 _C.EXPERIMENT.START_EPOCH = 0

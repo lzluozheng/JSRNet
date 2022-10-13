@@ -4,7 +4,7 @@ import torch
 import importlib
 
 # from config import get_cfg_defaults
-sys.path.append("D:\\code\\study\\autopilot\\JSRNet\\code\\config\\")
+sys.path.append("D:\\code\\study\\autopilot\\JSRNet-modify\\code\\config\\")
 from config.defaults import get_cfg_defaults
 
 class MethodEvaluator():
@@ -102,7 +102,7 @@ class ReconAnom(MethodEvaluator):
 
 if __name__ == "__main__":
     # 修改项目地址
-    params = {"exp_dir": "D:\\code\\study\\autopilot\\JSRNet"}
+    params = {"exp_dir": "D:\\code\\study\\autopilot\\JSRNet-modify"}
     evaluator = ReconAnom(**params)
     img = torch.rand((2, 3, 1024, 1024)).cuda() 
     # img as tensor in shape [B, 3, H, W] with values in range (0,1)
