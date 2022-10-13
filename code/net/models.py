@@ -32,6 +32,7 @@ class DeepLab(nn.Module):
         x, low_level_feat = self.backbone(input)
         x = self.aspp(x)
         x = self.decoder(x, low_level_feat)
+        # 双线性插值
         x = F.interpolate(x, size=input.size()[2:], mode='bilinear', align_corners=True)
         return x
 
@@ -80,10 +81,10 @@ class DeepLabCommon(nn.Module):
         super(DeepLabCommon, self).__init__()
         self.freeze_bn = cfg.MODEL.FREEZE_BN 
         
-        # inicialize trained segmentation model
+        # inicialize trained segmentation checkpoints
         self.deeplab = DeepLab(cfg, cfg.MODEL.RECONSTRUCTION.SEGM_MODEL_NCLASS)
         if not os.path.isfile(cfg.MODEL.RECONSTRUCTION.SEGM_MODEL):
-            raise RuntimeError("=> pretrained segmentation model not found at '{}'" .format(cfg.MODEL.RECONSTRUCTION.SEGM_MODEL))
+            raise RuntimeError("=> pretrained segmentation checkpoints not found at '{}'" .format(cfg.MODEL.RECONSTRUCTION.SEGM_MODEL))
         checkpoint = torch.load(cfg.MODEL.RECONSTRUCTION.SEGM_MODEL, map_location="cpu")
         self.deeplab.load_state_dict(checkpoint['state_dict'])
         for parameter in self.deeplab.parameters():
@@ -91,7 +92,7 @@ class DeepLabCommon(nn.Module):
         del checkpoint
         
         # Reconstruction block 
-        # 1) reconstruction decoder from segmentation model encoder features through small bottleneck
+        # 1) reconstruction decoder from segmentation checkpoints encoder features through small bottleneck
         self.recon_dec = ReconstructionDecoder(cfg)
 
     def forward(self, input):
@@ -154,7 +155,7 @@ class DeepLabReconFuseSimple(DeepLabCommon):
             segmentation = F.interpolate(x, size=input.size()[2:], mode='bilinear', align_corners=True)
         recon, recon_loss, bl = self.recon_dec(input, encoder_feat, low_level_feat)
         x = self.fuse_conv(segmentation)
-        
+
         perpixel = F.softmax(x * torch.cat([recon_loss, 1-recon_loss], dim=1), dim=1)[:, 0:1, ...]
 
         return {"input": input,

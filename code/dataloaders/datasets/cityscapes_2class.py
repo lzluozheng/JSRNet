@@ -5,7 +5,7 @@ from PIL import Image
 from torch.utils import data
 from torchvision import transforms
 from dataloaders import custom_transforms as tr
-
+from config import cfg
 class CityscapesSegmentation_2Class(data.Dataset):
     NUM_CLASSES = 2 
 
@@ -110,14 +110,14 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
     from yacs.config import CfgNode as CN
     
-    cfg = CN()
-    cfg.INPUT = CN()
-    cfg.INPUT.BASE_SIZE = 513
-    cfg.INPUT.CROP_SIZE = 513
-    cfg.AUG = CN()
-    cfg.AUG.RANDOM_CROP_PROB = 0.5
+    # cfg = CN()
+    # cfg.INPUT = CN()
+    # cfg.INPUT.BASE_SIZE = 513
+    # cfg.INPUT.CROP_SIZE = 513
+    # cfg.AUG = CN()
+    # cfg.AUG.RANDOM_CROP_PROB = 0.5
 
-    cityscapes_train = CityscapesSegmentation_2Class(cfg, root="path/to/cityscapes/", split='train')
+    cityscapes_train = CityscapesSegmentation_2Class(cfg, root="E:\\dataset\\CityScapes", split='train')
 
     dataloader = DataLoader(cityscapes_train, batch_size=2, shuffle=True, num_workers=2)
 

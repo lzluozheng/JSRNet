@@ -49,12 +49,12 @@ class Trainer(object):
         if params10x is not None: 
             train_params.append({'params': params10x , 'lr': cfg.OPTIMIZER.LR*10})
         if len(train_params) == 0:
-            print ("SGD: Training all parameters of model with LR: {:0.5f}".format(cfg.OPTIMIZER.LR))
+            print ("SGD: Training all parameters of checkpoints with LR: {:0.5f}".format(cfg.OPTIMIZER.LR))
             self.optimizer = torch.optim.SGD(self.model.parameters(), lr=cfg.OPTIMIZER.LR, momentum=cfg.OPTIMIZER.MOMENTUM,
                                     weight_decay=cfg.OPTIMIZER.WEIGHT_DECAY, 
                                     nesterov=cfg.OPTIMIZER.NESTEROV)
         else:
-            print ("SGD: Training selected parameters of model with LR: {}".format([d["lr"] for d in train_params]))
+            print ("SGD: Training selected parameters of checkpoints with LR: {}".format([d["lr"] for d in train_params]))
             self.optimizer = torch.optim.SGD(train_params, momentum=cfg.OPTIMIZER.MOMENTUM,
                                     weight_decay=cfg.OPTIMIZER.WEIGHT_DECAY, 
                                     nesterov=cfg.OPTIMIZER.NESTEROV)
@@ -225,7 +225,7 @@ if __name__ == "__main__":
     trainer = Trainer(cfg)
 
     print (trainer.model)
-    #summary(trainer.model, input_size=(3, cfg.INPUT.CROP_SIZE, cfg.INPUT.CROP_SIZE))
+    #summary(trainer.checkpoints, input_size=(3, cfg.INPUT.CROP_SIZE, cfg.INPUT.CROP_SIZE))
 
     print("Saving experiment to:", trainer.saver.experiment_dir) 
     print('Starting Epoch:', trainer.start_epoch)

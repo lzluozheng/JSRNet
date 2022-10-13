@@ -175,7 +175,7 @@ class AlignedXception(nn.Module):
         # Init weights
         self._init_weight()
 
-        # Load pretrained model
+        # Load pretrained checkpoints
         if pretrained:
             self._load_pretrained_model()
 

@@ -3,8 +3,8 @@ import sys
 import torch
 import importlib
 
-#from config import get_cfg_defaults
-sys.path.append("<PATH TO CODE ROOT DIR>/config/")
+# from config import get_cfg_defaults
+sys.path.append("D:\\code\\study\\autopilot\\JSRNet\\code\\config\\")
 from config.defaults import get_cfg_defaults
 
 class MethodEvaluator():
@@ -69,18 +69,18 @@ class ReconAnom(MethodEvaluator):
         self.model = getattr(model_module, cfg_local.MODEL.NET)(**kwargs)
         sys.path = sys.path[1:]
 
-        if cfg_local.EXPERIMENT.RESUME_CHECKPOINT is not None:
-            if not os.path.isfile(cfg_local.EXPERIMENT.RESUME_CHECKPOINT):
-                raise RuntimeError("=> no checkpoint found at '{}'" .format(cfg_local.EXPERIMENT.RESUME_CHECKPOINT))
-            checkpoint = torch.load(cfg_local.EXPERIMENT.RESUME_CHECKPOINT, map_location="cpu")
-            if cfg_local.SYSTEM.USE_GPU and torch.cuda.device_count() > 1:
-                self.model.module.load_state_dict(checkpoint['state_dict'])
-            else:
-                self.model.load_state_dict(checkpoint['state_dict'])
-            print("=> loaded checkpoint '{}' (epoch {})".format(cfg_local.EXPERIMENT.RESUME_CHECKPOINT, checkpoint['epoch']))
-            del checkpoint
-        else:
-            raise RuntimeError("=> model checkpoint has to be provided for testing!")
+        # if cfg_local.EXPERIMENT.RESUME_CHECKPOINT is not None:
+        #     if not os.path.isfile(cfg_local.EXPERIMENT.RESUME_CHECKPOINT):
+        #         raise RuntimeError("=> no checkpoint found at '{}'" .format(cfg_local.EXPERIMENT.RESUME_CHECKPOINT))
+        #     checkpoint = torch.load(cfg_local.EXPERIMENT.RESUME_CHECKPOINT, map_location="cpu")
+        #     if cfg_local.SYSTEM.USE_GPU and torch.cuda.device_count() > 1:
+        #         self.model.module.load_state_dict(checkpoint['state_dict'])
+        #     else:
+        #         self.model.load_state_dict(checkpoint['state_dict'])
+        #     print("=> loaded checkpoint '{}' (epoch {})".format(cfg_local.EXPERIMENT.RESUME_CHECKPOINT, checkpoint['epoch']))
+        #     del checkpoint
+        # else:
+        #     raise RuntimeError("=> checkpoints checkpoint has to be provided for testing!")
         
         # Using cuda
         self.model.to(self.device)
@@ -101,7 +101,8 @@ class ReconAnom(MethodEvaluator):
 
 
 if __name__ == "__main__":
-    params = {"exp_dir": "<PATH TO THE DIRECTORY CONTAINING 'code' and 'parameters.yaml'>"}
+    # 修改项目地址
+    params = {"exp_dir": "D:\\code\\study\\autopilot\\JSRNet"}
     evaluator = ReconAnom(**params)
     img = torch.rand((2, 3, 1024, 1024)).cuda() 
     # img as tensor in shape [B, 3, H, W] with values in range (0,1)

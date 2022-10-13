@@ -146,9 +146,9 @@ class ResNet(nn.Module):
         self.load_state_dict(state_dict)
 
 def ResNet101(output_stride, BatchNorm, pretrained=True):
-    """Constructs a ResNet-101 model.
+    """Constructs a ResNet-101 checkpoints.
     Args:
-        pretrained (bool): If True, returns a model pre-trained on ImageNet
+        pretrained (bool): If True, returns a checkpoints pre-trained on ImageNet
     """
     model = ResNet(Bottleneck, [3, 4, 23, 3], output_stride, BatchNorm, pretrained=pretrained)
     return model

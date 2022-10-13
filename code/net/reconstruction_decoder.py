@@ -7,6 +7,7 @@ from torch.autograd import Variable
 import torchvision.models as models
 from math import exp
 from net.aspp import ASPP
+from net.sync_batchnorm import SynchronizedBatchNorm2d
 
 
 class ReconstructionDecoder(nn.Module):

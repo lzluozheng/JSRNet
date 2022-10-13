@@ -5,9 +5,9 @@ AUG:
   SCALE_MIN: 0.5
 DATASET:
   FT: false
-  TEST: LaF
+  TEST: cityscapes
   TRAIN: cityscapes_2class
-  VAL: LaF
+  VAL: cityscapes
 EXPERIMENT:
   EPOCHS: 200
   EVAL_INTERVAL: 1
@@ -42,7 +42,7 @@ MODEL:
   OUT_STRIDE: 16
   RECONSTRUCTION:
     LATENT_DIM: 4
-    SEGM_MODEL: <PATH TO CHECKPOINTS>/checkpoint-segmentation.pth
+    SEGM_MODEL: D:\\code\\study\\autopilot\\JSRNet\\checkpoints\\checkpoint-segmentation.pth
     SEGM_MODEL_NCLASS: 19
     SKIP_CONN: false
     SKIP_CONN_DIM: 32
