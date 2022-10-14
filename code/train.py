@@ -115,6 +115,7 @@ class Trainer(object):
         self.model.train()
         tbar = tqdm(self.train_loader)
         num_img_tr = len(self.train_loader)
+
         for i, sample in enumerate(tbar):
             image, target = sample['image'], sample['label']
             if cfg.SYSTEM.USE_GPU:
@@ -122,6 +123,8 @@ class Trainer(object):
             self.scheduler(self.optimizer, i, epoch, self.best_pred)
             self.optimizer.zero_grad()
             output = self.model(image)
+            # print(output)
+            # print(target)
             loss = self.criterion(output, target)
             loss.backward()
             self.optimizer.step()

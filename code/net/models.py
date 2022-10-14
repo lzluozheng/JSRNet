@@ -207,7 +207,7 @@ class DeepLabReconFuseSimpleTrain(DeepLabCommon):
 
 class DeepLabReconFuseSimpleTrainModified(DeepLabCommon):
     def __init__(self, cfg, **kwargs):
-        super(DeepLabReconFuseSimpleTrain, self).__init__(cfg, **kwargs)
+        super(DeepLabReconFuseSimpleTrainModified, self).__init__(cfg, **kwargs)
 
         # 2) merging of multiclass segmentation ouput and road reconstruction loss
         self.fuse_conv = nn.Sequential(
@@ -229,17 +229,22 @@ class DeepLabReconFuseSimpleTrainModified(DeepLabCommon):
         with torch.no_grad():
             # 多张mask的图片
             # 设置的异常尺度
-            k_value = [16, 32, 64, 128, 256]
+            k_value = [16, 32, 64, 128]
             Ms_generator = gen_mask(k_value, 3, cfg.INPUT.CROP_SIZE)
             Ms = next(Ms_generator)
             device = torch.device("cuda:0" if cfg.SYSTEM.USE_GPU else "cpu")
             inputs = [input * (torch.tensor(mask, requires_grad=False).to(device)) for mask in Ms]
-            encoder_feats, low_level_feats = [self.deeplab.backbone(x) for x in inputs]
+            encoder_feats=[]
+            low_level_feats=[]
+            for x in inputs:
+                encoder_feat,low_level_feat= self.deeplab.backbone(x)
+                encoder_feats.append(encoder_feat)
+                low_level_feats.append(low_level_feat)
             # x1s = [self.deeplab.aspp(encoder_feat) for encoder_feat in encoder_feats]
             #
             # x2s = [self.deeplab.decoder(x, low_level_feat) for x,low_level_feat in zip(x1s,low_level_feats)]
 
-        recon, recon_loss = self.recon_dec(input, encoder_feat, low_level_feat)
+        recon, recon_loss = self.recon_dec(Ms,input, inputs,encoder_feats, low_level_feats)
 
         x = self.fuse_conv(torch.cat([segmentation, recon_loss], dim=1))
 

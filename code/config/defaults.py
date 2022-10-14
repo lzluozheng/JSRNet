@@ -19,7 +19,7 @@ _C.MODEL.FREEZE_BN = False
 _C.MODEL.RECONSTRUCTION = CN()
 _C.MODEL.RECONSTRUCTION.LATENT_DIM = 4      # number of channels of latent space
 #_C.MODEL.RECONSTRUCTION.SEGM_MODEL = "/mnt/datagrid/personal/vojirtom/sod/mcsegm/20210209_112729_903607/checkpoints/checkpoint-best.pth" #resnet 51.6
-# _C.MODEL.RECONSTRUCTION.SEGM_MODEL = "D:\\code\\study\\autopilot\\JSRNet-modify\\checkpoints\\checkpoint-segmentation.pth"  #resnet 66.1
+# _C.MODEL.RECONSTRUCTION.SEGM_MODEL = "D:\\code\\study\\autopilot\\JSRNet\\checkpoints\\checkpoint-segmentation.pth"  #resnet 66.1
 _C.MODEL.RECONSTRUCTION.SEGM_MODEL = "/tmp/pycharm_project_114/checkpoints/checkpoint-segmentation.pth" #mobilenet 61.2
 #_C.MODEL.RECONSTRUCTION.SEGM_MODEL = "/mnt/datagrid/personal/vojirtom/sod/mcsegm/20210306_214758_686017/checkpoints/checkpoint-best.pth" #xception 50.3
 _C.MODEL.RECONSTRUCTION.SEGM_MODEL_NCLASS = 19  # 19 for cityscapes
@@ -36,7 +36,7 @@ _C.LOSS.BATCH_AVG = True
 
 _C.EXPERIMENT= CN()
 _C.EXPERIMENT.NAME = None                   # None == Auto name from date and time 
-# _C.EXPERIMENT.OUT_DIR = "D:\\code\\study\\autopilot\\JSRNet-modify\\temp"
+# _C.EXPERIMENT.OUT_DIR = "D:\\code\\study\\autopilot\\JSRNet\\temp"
 _C.EXPERIMENT.OUT_DIR = "/tmp/pycharm_project_114/temp"
 _C.EXPERIMENT.EPOCHS = 200                  # number of training epochs
 _C.EXPERIMENT.START_EPOCH = 0
@@ -46,12 +46,12 @@ _C.EXPERIMENT.EVAL_INTERVAL = 1             # eval every X epoch
 _C.EXPERIMENT.EVAL_METRIC = "AnomalyEvaluator" # available evaluation metrics from utils.metrics.py file
 
 _C.INPUT = CN()
-_C.INPUT.BASE_SIZE = 513
-_C.INPUT.CROP_SIZE = 513
+_C.INPUT.BASE_SIZE = 512
+_C.INPUT.CROP_SIZE = 512
 _C.INPUT.NORM_MEAN = [0.485, 0.456, 0.406]  # mean for the input image to the net (image -> (0, 1) -> mean/std) 
 _C.INPUT.NORM_STD = [0.229, 0.224, 0.225]   # std for the input image to the net (image -> (0, 1) -> mean/std) 
-_C.INPUT.BATCH_SIZE_TRAIN = 4          # None = Auto set based on training dataset
-_C.INPUT.BATCH_SIZE_TEST = 4           # None = Auto set based on training batch size
+_C.INPUT.BATCH_SIZE_TRAIN = 2          # None = Auto set based on training dataset
+_C.INPUT.BATCH_SIZE_TEST = 2           # None = Auto set based on training batch size
 
 _C.AUG = CN()
 _C.AUG.RANDOM_CROP_PROB = 0.5               # prob that random polygon (anomaly) will be cut from image vs. random noise

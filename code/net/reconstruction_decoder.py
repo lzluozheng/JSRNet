@@ -74,10 +74,11 @@ class ReconstructionDecoder(nn.Module):
 
         return [recons, recons_loss, bl]
 
+
 # 只返回重构图
 class ReconstructionDecoderV2(nn.Module):
     def __init__(self, cfg, **kwargs):
-        super(ReconstructionDecoder, self).__init__()
+        super(ReconstructionDecoderV2, self).__init__()
         self.layers_dim = [16, 32, 64, 128]
         self.latent_dim = cfg.MODEL.RECONSTRUCTION.LATENT_DIM
 
@@ -139,6 +140,7 @@ class ReconstructionDecoderV2(nn.Module):
 
         return recons
 
+
 # 修改的重构模块，将分割模块对多张mask的图片下采样的特征输入，以及原图，
 class ReconstructionDecoderModified(nn.Module):
     def __init__(self, cfg, **kwargs):
@@ -147,13 +149,18 @@ class ReconstructionDecoderModified(nn.Module):
         self.realRecon = ReconstructionDecoderV2(cfg)
         self.recon_loss = SSIMLoss(window_size=11, absval=True)
         self.cfg = cfg
+        self.mean_tensor = torch.FloatTensor(cfg.INPUT.NORM_MEAN)[None, :, None, None]
+        self.std_tensor = torch.FloatTensor(cfg.INPUT.NORM_STD)[None, :, None, None]
 
     def forward(self, Ms, orginal_img, imgs, encoder_feats, low_level_feats):
         # 这里的imgs是没有用的，因为img原本是作为原图来计算loss的，但是img在这里已经不是原图，
         # orginal_img才是，而且也不采用这一步的loss。
-        recons_imgs = [self.recon_dec(img, encoder_feat, low_level_feat) for img, encoder_feat, low_level_feat in
+        recons_imgs = [self.realRecon(img, encoder_feat, low_level_feat) for img, encoder_feat, low_level_feat in
                        zip(imgs, encoder_feats, low_level_feats)]
         device = torch.device("cuda:0" if self.cfg.SYSTEM.USE_GPU else "cpu")
+
+        self.mean_tensor = self.mean_tensor.cuda(device)
+        self.std_tensor = self.std_tensor.cuda(device)
         # 多张mask之后的图重构的图合成一张图
         final_recon_img = sum(
             map(lambda x, y: x * (torch.tensor(1 - y, requires_grad=False).to(device)), recons_imgs, Ms))
